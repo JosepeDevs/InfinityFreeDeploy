@@ -1,0 +1,27 @@
+name: FTPUpload
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  web-deploy:
+      name: 🎉 AutoDesplegado
+      runs-on: ubuntu-latest
+      steps:
+      - name: 🚚 Manda tu código de GitHub a máquina virtual
+        uses: actions/checkout@v3
+  
+      - name: 📂 Enviamos archivos via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.servidor }}
+          username: ${{ secrets.usuario }}
+          password: ${{ secrets.contraseña }}
+          server-dir: /htdocs/
+          protocol: ftps
+          port: 21 
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
